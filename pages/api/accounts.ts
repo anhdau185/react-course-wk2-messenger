@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { db } from 'data';
 import { init } from 'data/repository';
 
-async function AccountsAPI(req: NextApiRequest, res: NextApiResponse) {
+export default async function AccountsAPI(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET':
       const accounts = await getAllAccounts();
@@ -17,5 +17,3 @@ export async function getAllAccounts() {
   await init();
   return db.data?.users ?? []; // return all accounts from db
 }
-
-export default AccountsAPI;

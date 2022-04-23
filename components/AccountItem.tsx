@@ -4,12 +4,12 @@ import { ChevronRightIcon } from '@chakra-ui/icons';
 
 import type { User } from 'types/api';
 
-interface AccountItemProps {
+type AccountItemProps = {
   account: User;
-}
+};
 
 const AccountItem = ({ account }: AccountItemProps) => (
-  <Link href="#">
+  <Link href={`/account/${account.id}`} passHref>
     <Container
       display="flex"
       alignItems="center"
@@ -26,7 +26,7 @@ const AccountItem = ({ account }: AccountItemProps) => (
       <Avatar bg="purple.500" />
       <Container>
         <Heading as="span" size="md" color="gray.600">{account.name}</Heading>
-        <Text color="gray.500">{'email@domain.com'}</Text>
+        <Text color="gray.500" fontSize="sm">{'email@domain.com'}</Text>
       </Container>
       <ChevronRightIcon fontSize="xl" />
     </Container>
