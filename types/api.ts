@@ -1,4 +1,4 @@
-import { SORT_INDICATOR } from "data/repository";
+import type { SORT_INDICATOR } from 'data/repository';
 
 export interface Conversation {
   id: string;

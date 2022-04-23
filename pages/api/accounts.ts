@@ -3,7 +3,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { db } from 'data';
 import { init } from 'data/repository';
 
-export default async function AccountsAPI(req: NextApiRequest, res: NextApiResponse) {
+export async function getAllAccounts() {
+  await init();
+  return db.data?.users ?? []; // return all accounts from db
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET':
       const accounts = await getAllAccounts();
@@ -11,9 +16,4 @@ export default async function AccountsAPI(req: NextApiRequest, res: NextApiRespo
     default:
       return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-}
-
-export async function getAllAccounts() {
-  await init();
-  return db.data?.users ?? []; // return all accounts from db
 }
