@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Avatar, Container, Heading, Text } from '@chakra-ui/react';
+import { Avatar, Container, Flex, Heading, Text } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
 import type { User } from 'types/api';
@@ -10,13 +10,12 @@ type AccountItemProps = {
 
 const AccountItem = ({ account }: AccountItemProps) => (
   <Link href={`/account/${account.id}`} passHref>
-    <Container
-      display="flex"
-      alignItems="center"
+    <Flex
+      align="center"
       p="3"
       border="1px"
       borderColor="gray.200"
-      borderRadius="md"
+      borderRadius="lg"
       cursor="pointer"
       transition="ease-in-out"
       transitionDuration="0.2s"
@@ -25,11 +24,13 @@ const AccountItem = ({ account }: AccountItemProps) => (
     >
       <Avatar bg="purple.500" />
       <Container>
-        <Heading as="span" size="md" color="gray.600">{account.name}</Heading>
+        <Heading as="span" color="gray.800" fontSize={{ base: 'md', md: 'lg', xl: 'xl' }}>
+          {account.name}
+        </Heading>
         <Text color="gray.500" fontSize="sm">{'email@domain.com'}</Text>
       </Container>
       <ChevronRightIcon fontSize="xl" />
-    </Container>
+    </Flex>
   </Link>
 );
 
