@@ -3,6 +3,7 @@ import {
   Box,
   Drawer,
   DrawerContent,
+  Flex,
   useColorModeValue,
   useDisclosure,
   useMediaQuery
@@ -19,10 +20,10 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
   const showDesktopNav = currentConversation !== undefined;
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('white', 'gray.900')}>
+    <Box h="100vh" bg={useColorModeValue('white', 'gray.900')}>
       <SidebarContent
-        onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
+        onClose={() => onClose}
       />
       <Drawer
         autoFocus={false}
@@ -37,11 +38,15 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60, xl: 80 }}>
+      <Flex
+        h="100%"
+        ml={{ base: 0, md: 60, xl: 80 }}
+        flexDirection="column"
+      >
+        <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
         {showDesktopNav && <DesktopNav display={{ base: 'none', md: 'flex' }} />}
         {children}
-      </Box>
+      </Flex>
     </Box>
   );
 }

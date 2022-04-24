@@ -16,14 +16,6 @@ import type {
 export const AccountPageContext =
   createContext<AccountPageContextValues>({ conversations: [] });
 
-const NoConversationChosen = () => (
-  <Center h="75vh">
-    <Text fontSize="lg" color="gray.600">
-      No conversation chosen.
-    </Text>
-  </Center>
-);
-
 const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<Conversation>();
@@ -49,7 +41,13 @@ const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
       <SidebarLayout>
         {conversationChosen
           ? <ChatView conversation={currentConversation} />
-          : <NoConversationChosen />}
+          : (
+            <Center h="100%">
+              <Text fontSize="lg" color="gray.600">
+                No conversation chosen.
+              </Text>
+            </Center>
+          )}
       </SidebarLayout>
     </AccountPageContext.Provider>
   );
