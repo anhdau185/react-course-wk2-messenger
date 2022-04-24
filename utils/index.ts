@@ -17,3 +17,12 @@ export function getConversationName(
     .map(participant => participant.name)
     .join(', ');
 }
+
+export function isSamePerson(
+  person1: User | undefined,
+  person2: User | undefined
+): boolean {
+  return (
+    person1 !== undefined && person2 !== undefined && person1.id === person2.id
+  );
+}
