@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 
 import { AccountPageContext } from 'pages/account/[accountId]';
-import { getConversationName } from './utils';
+import { getConversationName } from 'utils';
 
 type MobileNavProps = FlexProps & {
   onOpen: () => void;

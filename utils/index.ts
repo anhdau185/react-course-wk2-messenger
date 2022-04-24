@@ -1,6 +1,9 @@
-import { Conversation, User } from 'types/api';
+import type { Conversation, User } from 'types/api';
 
-export function getConversationName(conversation?: Conversation, yourself?: User): string {
+export function getConversationName(
+  conversation?: Conversation,
+  yourself?: User
+): string {
   if (conversation === undefined) return '';
 
   if (yourself === undefined) {
