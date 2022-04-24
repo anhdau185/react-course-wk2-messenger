@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Box,
   Drawer,
@@ -15,9 +15,13 @@ import SidebarContent from './SidebarContent';
 
 export default function SidebarLayout({ children }: { children: React.ReactNode }) {
   const [isMobile] = useMediaQuery('(max-width: 767px)');
-  const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: isMobile });
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { currentConversation } = useContext(AccountPageContext);
   const showDesktopNav = currentConversation !== undefined;
+
+  useEffect(() => {
+    if (isMobile) onOpen();
+  }, []);
 
   return (
     <Box h="100vh" bg={useColorModeValue('white', 'gray.900')}>
