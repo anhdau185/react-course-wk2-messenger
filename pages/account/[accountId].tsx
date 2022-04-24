@@ -1,12 +1,12 @@
 import type { GetServerSideProps, NextPage } from 'next';
 import { createContext, useEffect, useMemo, useState } from 'react';
+import { Center, Text } from '@chakra-ui/react';
 import axios from 'axios';
 
 import type { PaginatedResponse, Conversation, User } from 'types/api';
 import SidebarLayout from 'components/SidebarLayout';
-import ConversationView from 'components/ConversationView';
+import ChatView from 'components/ChatView';
 import { getAccount } from '../api/account/[accountId]';
-import { Center, Text } from '@chakra-ui/react';
 
 type AccountPageParams = {
   accountId: string;
@@ -58,7 +58,7 @@ const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
     <AccountPageContext.Provider value={contextValue}>
       <SidebarLayout>
         {conversationChosen
-          ? <ConversationView conversation={currentConversation} />
+          ? <ChatView conversation={currentConversation} />
           : <NoConversationChosen />}
       </SidebarLayout>
     </AccountPageContext.Provider>

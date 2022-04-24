@@ -2,11 +2,11 @@ import { Heading } from '@chakra-ui/react';
 
 import { Conversation } from 'types/api';
 
-type ConversationViewProps = {
+type ChatViewProps = {
   conversation: Conversation;
 };
 
-export default function ConversationView({ conversation }: ConversationViewProps) {
+export default function ChatView({ conversation }: ChatViewProps) {
   return (
     <Heading>Showing conversation {conversation.id}</Heading>
   );
