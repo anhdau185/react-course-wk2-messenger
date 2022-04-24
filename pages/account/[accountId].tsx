@@ -3,25 +3,15 @@ import { createContext, useEffect, useMemo, useState } from 'react';
 import { Center, Text } from '@chakra-ui/react';
 import axios from 'axios';
 
-import type { PaginatedResponse, Conversation, User } from 'types/api';
+import type { Conversation, PaginatedResponse } from 'types/api';
 import SidebarLayout from 'components/SidebarLayout';
 import ChatView from 'components/ChatView';
 import { getAccount } from '../api/account/[accountId]';
-
-type AccountPageParams = {
-  accountId: string;
-};
-
-type AccountPageProps = {
-  account: User;
-};
-
-interface AccountPageContextValues {
-  account?: User;
-  conversations: Conversation[];
-  currentConversation?: Conversation;
-  setCurrentConversation?: (conversation: Conversation | undefined) => void;
-}
+import type {
+  AccountPageParams,
+  AccountPageProps,
+  AccountPageContextValues
+} from './types';
 
 export const AccountPageContext =
   createContext<AccountPageContextValues>({ conversations: [] });
