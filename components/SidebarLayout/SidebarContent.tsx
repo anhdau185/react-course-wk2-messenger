@@ -13,7 +13,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 
-import { useAccountPageContext } from 'pages/account/[accountId]';
+import { useAccountPageData } from 'pages/account/[accountId]';
 import { getConversationName } from 'utils';
 
 type SidebarItemProps = FlexProps & PropsWithChildren<{
@@ -48,7 +48,7 @@ export default function SidebarContent({ onClose, ...rest }: SidebarContentProps
     conversations,
     currentConversation,
     setCurrentConversation
-  } = useAccountPageContext();
+  } = useAccountPageData();
 
   return (
     <Box

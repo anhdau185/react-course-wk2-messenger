@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import type { Conversation, Message, PaginatedResponse } from 'types/api';
-import { useAccountPageContext } from 'pages/account/[accountId]';
+import { useAccountPageData } from 'pages/account/[accountId]';
 import MessageFeed from './MessageFeed';
 import MessageBox from './MessageBox';
 import { Center, Text } from '@chakra-ui/react';
@@ -20,7 +20,7 @@ const getMessages = (
   );
 
 export default function ChatView({ conversation }: ChatViewProps) {
-  const { account } = useAccountPageContext();
+  const { account } = useAccountPageData();
   const [messages, setMessages] = useState<Message[]>([]);
   const fetch = () => getMessages(account?.id, conversation?.id);
   const conversationChosen = conversation !== undefined;

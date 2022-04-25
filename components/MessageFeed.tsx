@@ -4,7 +4,7 @@ import ScrollableFeed from 'react-scrollable-feed';
 
 import type { Message } from 'types/api';
 import { isSamePerson } from 'utils';
-import { useAccountPageContext } from 'pages/account/[accountId]';
+import { useAccountPageData } from 'pages/account/[accountId]';
 
 type MessageItemProps = {
   message: Message;
@@ -15,7 +15,7 @@ type MessageFeedProps = {
 };
 
 const MessageItem = ({ message }: MessageItemProps) => {
-  const { account } = useAccountPageContext();
+  const { account } = useAccountPageData();
   const isMyself = useMemo(
     () => isSamePerson(message.sender, account),
     [message.sender, account]

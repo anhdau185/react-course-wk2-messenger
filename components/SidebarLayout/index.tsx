@@ -9,14 +9,14 @@ import {
   useMediaQuery
 } from '@chakra-ui/react';
 
-import { useAccountPageContext } from 'pages/account/[accountId]';
+import { useAccountPageData } from 'pages/account/[accountId]';
 import { MobileNav, DesktopNav } from './Navigation';
 import SidebarContent from './SidebarContent';
 
 export default function SidebarLayout({ children }: { children: React.ReactNode }) {
   const [isMobile] = useMediaQuery('(max-width: 767px)');
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { currentConversation } = useAccountPageContext();
+  const { currentConversation } = useAccountPageData();
   const showDesktopNav = currentConversation !== undefined;
 
   useEffect(() => {

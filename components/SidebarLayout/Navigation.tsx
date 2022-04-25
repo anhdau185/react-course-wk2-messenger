@@ -9,7 +9,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 
-import { useAccountPageContext } from 'pages/account/[accountId]';
+import { useAccountPageData } from 'pages/account/[accountId]';
 import { getConversationName } from 'utils';
 
 type MobileNavProps = FlexProps & {
@@ -17,7 +17,7 @@ type MobileNavProps = FlexProps & {
 };
 
 export const MobileNav = ({ onOpen, ...rest }: MobileNavProps) => {
-  const { account, currentConversation } = useAccountPageContext();
+  const { account, currentConversation } = useAccountPageData();
   const showConversationName = currentConversation !== undefined;
   const conversationName = useMemo(
     () => `You and ${getConversationName(currentConversation, account)}`,
@@ -50,7 +50,7 @@ export const MobileNav = ({ onOpen, ...rest }: MobileNavProps) => {
 
 export const DesktopNav = (flexProps: FlexProps) => {
   const { account, currentConversation, setCurrentConversation } =
-    useAccountPageContext();
+    useAccountPageData();
 
   const conversationName = useMemo(
     () => getConversationName(currentConversation, account),

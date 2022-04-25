@@ -15,7 +15,7 @@ import type {
 export const AccountPageContext =
   createContext<AccountPageContextValues>({ conversations: [] });
 
-export const useAccountPageContext = () => useContext(AccountPageContext);
+export const useAccountPageData = () => useContext(AccountPageContext);
 
 const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
