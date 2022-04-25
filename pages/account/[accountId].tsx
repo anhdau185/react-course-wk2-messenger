@@ -6,7 +6,6 @@ import type { Conversation, PaginatedResponse, User } from 'types/api';
 import { AccountPageContextValues, AccountPageContext } from 'context/accountPage';
 import SidebarLayout from 'components/SidebarLayout';
 import ChatView from 'components/ChatView';
-import { getAccount } from '../api/account/[accountId]';
 
 type AccountPageParams = {
   accountId: string;
@@ -17,7 +16,9 @@ type AccountPageProps = {
 };
 
 const getConversations = (accountId: string) =>
-  axios.get<PaginatedResponse<Conversation>>(`/api/account/${accountId}/conversations`);
+  axios.get<PaginatedResponse<Conversation>>(
+    `/api/account/${accountId}/conversations`
+  );
 
 const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -53,7 +54,9 @@ export const getServerSideProps: GetServerSideProps<
   AccountPageParams
 > = async context => {
   const { accountId } = context.params as AccountPageParams;
-  const account = await getAccount(accountId);
+  const { data: account } = await axios.get<User>(
+    `https://messenger-api.tung.ninja/api/account/${accountId}`
+  );
 
   return {
     props: { account }
