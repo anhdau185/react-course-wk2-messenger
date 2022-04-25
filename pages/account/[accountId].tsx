@@ -1,6 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next';
-import { createContext, useEffect, useMemo, useState } from 'react';
-import { Center, Text } from '@chakra-ui/react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 
 import type { Conversation, PaginatedResponse } from 'types/api';
@@ -16,10 +15,11 @@ import type {
 export const AccountPageContext =
   createContext<AccountPageContextValues>({ conversations: [] });
 
+export const useAccountPageContext = () => useContext(AccountPageContext);
+
 const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<Conversation>();
-  const conversationChosen = currentConversation !== undefined;
 
   const contextValue = useMemo<AccountPageContextValues>(
     () => ({
@@ -39,15 +39,7 @@ const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
   return (
     <AccountPageContext.Provider value={contextValue}>
       <SidebarLayout>
-        {conversationChosen
-          ? <ChatView conversation={currentConversation} />
-          : (
-            <Center h="100%">
-              <Text fontSize="lg" color="gray.600">
-                No conversation chosen.
-              </Text>
-            </Center>
-          )}
+        <ChatView conversation={currentConversation} />
       </SidebarLayout>
     </AccountPageContext.Provider>
   );

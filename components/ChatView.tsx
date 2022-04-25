@@ -1,32 +1,46 @@
-import { useContext, useEffect, useState } from 'react';
-import { Box } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import type { Conversation, Message, PaginatedResponse } from 'types/api';
-import { AccountPageContext } from 'pages/account/[accountId]';
+import { useAccountPageContext } from 'pages/account/[accountId]';
 import MessageFeed from './MessageFeed';
+import MessageBox from './MessageBox';
+import { Center, Text } from '@chakra-ui/react';
 
 type ChatViewProps = {
-  conversation: Conversation;
+  conversation: Conversation | undefined;
 };
 
+const getMessages = (
+  accountId: string | undefined,
+  conversationId: string | undefined
+) =>
+  axios.get<PaginatedResponse<Message>>(
+    `/api/account/${accountId}/conversation/${conversationId}/messages`
+  );
+
 export default function ChatView({ conversation }: ChatViewProps) {
-  const { account } = useContext(AccountPageContext);
+  const { account } = useAccountPageContext();
   const [messages, setMessages] = useState<Message[]>([]);
+  const fetch = () => getMessages(account?.id, conversation?.id);
+  const conversationChosen = conversation !== undefined;
 
   useEffect(() => {
-    axios.get<PaginatedResponse<Message>>(
-      `/api/account/${account?.id}/conversation/${conversation.id}/messages`
-    )
-      .then(response => setMessages(response.data.rows));
-  }, [account?.id, conversation.id]);
+    if (account?.id && conversation?.id) {
+      fetch().then(response => setMessages(response.data.rows));
+    }
+  }, [account?.id, conversation?.id]);
 
-  return (
+  return conversationChosen ? (
     <>
       <MessageFeed messages={messages} />
-      <Box borderTop="1px" borderColor="gray.200" p="5">
-        THIS IS MESSAGE BOX
-      </Box>
+      <MessageBox refetchMessages={fetch} />
     </>
+  ) : (
+    <Center h="100%">
+      <Text fontSize="lg" color="gray.600">
+        No conversation chosen.
+      </Text>
+    </Center>
   );
 }
