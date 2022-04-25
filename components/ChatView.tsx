@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Center, Flex, Text } from '@chakra-ui/react';
 import axios from 'axios';
 
@@ -13,10 +13,13 @@ type ChatViewProps = {
   conversation: Conversation | undefined;
 };
 
-const getMessages = (
+const getMessages = ({
+  accountId,
+  conversationId
+}: {
   accountId: string | undefined,
   conversationId: string | undefined
-) =>
+}) =>
   axios.get<PaginatedResponse<Message>>(
     `/api/account/${accountId}/conversation/${conversationId}/messages`
   );
@@ -24,12 +27,21 @@ const getMessages = (
 export default function ChatView({ conversation }: ChatViewProps) {
   const { account } = useAccountPageData();
   const [messages, setMessages] = useState<Message[]>([]);
-  const fetch = () => getMessages(account?.id, conversation?.id);
   const conversationChosen = conversation !== undefined;
+
+  const fetchData = useCallback(
+    () => getMessages({
+      accountId: account?.id,
+      conversationId: conversation?.id
+    }),
+    [account?.id, conversation?.id]
+  );
 
   useEffect(() => {
     if (account?.id && conversation?.id) {
-      fetch().then(response => setMessages(response.data.rows));
+      fetchData().then(
+        response => setMessages(response.data.rows)
+      );
     }
   }, [account?.id, conversation?.id]);
 
@@ -40,7 +52,7 @@ export default function ChatView({ conversation }: ChatViewProps) {
       {conversationChosen ? (
         <>
           <MessageFeed messages={messages} />
-          <MessageBox refetchMessages={fetch} />
+          <MessageBox updateMessages={setMessages} />
         </>
       ) : (
         <Center flexGrow={1}>
