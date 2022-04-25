@@ -13,16 +13,13 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 
+import { useSidebar } from 'context/sidebar';
 import { useAccountPageData } from 'pages/account/[accountId]';
 import { getConversationName } from 'utils';
 
 type SidebarItemProps = FlexProps & PropsWithChildren<{
   selected?: boolean;
 }>;
-
-type SidebarContentProps = BoxProps & {
-  onClose: () => void;
-};
 
 const SidebarItem = ({ children, selected = false, ...rest }: SidebarItemProps) => (
   <Flex
@@ -42,7 +39,8 @@ const SidebarItem = ({ children, selected = false, ...rest }: SidebarItemProps) 
   </Flex>
 );
 
-export default function SidebarContent({ onClose, ...rest }: SidebarContentProps) {
+export default function SidebarContent(boxProps: BoxProps) {
+  const { closeSidebar } = useSidebar();
   const {
     account,
     conversations,
@@ -58,7 +56,7 @@ export default function SidebarContent({ onClose, ...rest }: SidebarContentProps
       w={{ base: 'full', md: 60, xl: 80 }}
       pos="fixed"
       h="full"
-      {...rest}
+      {...boxProps}
     >
       <Flex h="20" ml="4" mr="8" align="center" justify="space-between">
         <Flex align="center">
@@ -74,7 +72,7 @@ export default function SidebarContent({ onClose, ...rest }: SidebarContentProps
             Conversations
           </Text>
         </Flex>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={closeSidebar} />
       </Flex>
       {conversations.map(conversation => (
         <SidebarItem
@@ -82,7 +80,7 @@ export default function SidebarContent({ onClose, ...rest }: SidebarContentProps
           selected={conversation.id === currentConversation?.id}
           onClick={() => {
             setCurrentConversation?.(conversation);
-            onClose();
+            closeSidebar();
           }}
         >
           {getConversationName(conversation, account)}

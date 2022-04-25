@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { HamburgerIcon } from '@chakra-ui/icons';
-import type { FlexProps } from '@chakra-ui/react';
 import {
   IconButton,
   CloseButton,
@@ -9,16 +8,15 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 
+import { useSidebar } from 'context/sidebar';
 import { useAccountPageData } from 'pages/account/[accountId]';
 import { getConversationName } from 'utils';
 
-type MobileNavProps = FlexProps & {
-  onOpen: () => void;
-};
-
-export const MobileNav = ({ onOpen, ...rest }: MobileNavProps) => {
+export const MobileChatHeader = () => {
+  const { openSidebar } = useSidebar();
   const { account, currentConversation } = useAccountPageData();
   const showConversationName = currentConversation !== undefined;
+
   const conversationName = useMemo(
     () => `You and ${getConversationName(currentConversation, account)}`,
     [account, currentConversation]
@@ -26,19 +24,19 @@ export const MobileNav = ({ onOpen, ...rest }: MobileNavProps) => {
 
   return (
     <Flex
+      display={{ base: 'flex', md: 'none' }}
       p="3"
       align="center"
       justify="flex-start"
       bg={useColorModeValue('white', 'gray.900')}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-      {...rest}
     >
       <IconButton
         variant="ghost"
         aria-label="open menu"
         mr="3"
-        onClick={onOpen}
+        onClick={openSidebar}
         icon={<HamburgerIcon fontSize="xl" />}
       />
       <Text fontSize="lg" fontWeight="bold">
@@ -48,7 +46,7 @@ export const MobileNav = ({ onOpen, ...rest }: MobileNavProps) => {
   );
 };
 
-export const DesktopNav = (flexProps: FlexProps) => {
+export const DesktopChatHeader = () => {
   const { account, currentConversation, setCurrentConversation } =
     useAccountPageData();
 
@@ -59,6 +57,7 @@ export const DesktopNav = (flexProps: FlexProps) => {
 
   return (
     <Flex
+      display={{ base: 'none', md: 'flex' }}
       px="6"
       py="4"
       align="center"
@@ -66,7 +65,6 @@ export const DesktopNav = (flexProps: FlexProps) => {
       bg={useColorModeValue('white', 'gray.900')}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-      {...flexProps}
     >
       <Text fontSize="lg" fontWeight="bold">You and {conversationName}</Text>
       <CloseButton onClick={() => setCurrentConversation?.(undefined)} />

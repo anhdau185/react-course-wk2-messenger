@@ -11,7 +11,7 @@ import {
 
 import { SidebarContextValues, SidebarContext } from 'context/sidebar';
 import { useAccountPageData } from 'pages/account/[accountId]';
-import { MobileNav, DesktopNav } from './Navigation';
+import { MobileChatHeader, DesktopChatHeader } from './Navigation';
 import SidebarContent from './SidebarContent';
 
 export default function SidebarLayout({ children }: { children: React.ReactNode }) {
@@ -36,21 +36,18 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
   return (
     <SidebarContext.Provider value={contextValues}>
       <Box h="100vh" bg={useColorModeValue('white', 'gray.900')}>
-        <SidebarContent
-          display={{ base: 'none', md: 'block' }}
-          onClose={() => onClose}
-        />
+        <SidebarContent display={{ base: 'none', md: 'block' }} />
         <Drawer
-          autoFocus={false}
-          isOpen={isOpen}
           placement="left"
-          onClose={onClose}
+          isOpen={isOpen}
+          autoFocus={false}
           returnFocusOnClose={false}
+          onClose={onClose}
           onOverlayClick={onClose}
           size="full"
         >
           <DrawerContent>
-            <SidebarContent onClose={onClose} />
+            <SidebarContent />
           </DrawerContent>
         </Drawer>
         <Flex
@@ -58,8 +55,8 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
           ml={{ base: 0, md: 60, xl: 80 }}
           flexDir="column"
         >
-          <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-          {showDesktopNav && <DesktopNav display={{ base: 'none', md: 'flex' }} />}
+          <MobileChatHeader />
+          {showDesktopNav && <DesktopChatHeader />}
           {children}
         </Flex>
       </Box>
