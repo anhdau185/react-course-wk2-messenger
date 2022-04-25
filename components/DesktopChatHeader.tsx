@@ -13,13 +13,13 @@ export default function DesktopChatHeader() {
   const { account, currentConversation, setCurrentConversation } =
     useAccountPageData();
 
-  const conversationChosen = currentConversation !== undefined;
+  const showChatHeader = currentConversation !== undefined;
   const conversationName = useMemo(
     () => getConversationName(currentConversation, account),
     [account, currentConversation]
   );
 
-  return conversationChosen ? (
+  return showChatHeader ? (
     <Flex
       display={{ base: 'none', md: 'flex' }}
       px="6"

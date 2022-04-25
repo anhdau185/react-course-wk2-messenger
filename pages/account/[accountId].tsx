@@ -16,6 +16,9 @@ type AccountPageProps = {
   account: User;
 };
 
+const getConversations = (accountId: string) =>
+  axios.get<PaginatedResponse<Conversation>>(`/api/account/${accountId}/conversations`);
+
 const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<Conversation>();
@@ -31,8 +34,9 @@ const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
   );
 
   useEffect(() => {
-    axios.get<PaginatedResponse<Conversation>>(`/api/account/${account.id}/conversations`)
-      .then(response => setConversations(response.data.rows));
+    getConversations(account.id).then(
+      response => setConversations(response.data.rows)
+    );
   }, [account.id]);
 
   return (
