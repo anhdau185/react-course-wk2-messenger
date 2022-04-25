@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
+import { Center, Flex, Text } from '@chakra-ui/react';
 import axios from 'axios';
 
 import type { Conversation, Message, PaginatedResponse } from 'types/api';
 import { useAccountPageData } from 'context/accountPage';
 import MessageFeed from './MessageFeed';
 import MessageBox from './MessageBox';
-import { Center, Text } from '@chakra-ui/react';
+import MobileChatHeader from './MobileChatHeader';
+import DesktopChatHeader from './DesktopChatHeader';
 
 type ChatViewProps = {
   conversation: Conversation | undefined;
@@ -31,16 +33,22 @@ export default function ChatView({ conversation }: ChatViewProps) {
     }
   }, [account?.id, conversation?.id]);
 
-  return conversationChosen ? (
-    <>
-      <MessageFeed messages={messages} />
-      <MessageBox refetchMessages={fetch} />
-    </>
-  ) : (
-    <Center flexGrow={1}>
-      <Text fontSize="lg" color="gray.600">
-        No conversation chosen.
-      </Text>
-    </Center>
+  return (
+    <Flex flexDir="column" w="100%" h="100%">
+      <MobileChatHeader />
+      <DesktopChatHeader />
+      {conversationChosen ? (
+        <>
+          <MessageFeed messages={messages} />
+          <MessageBox refetchMessages={fetch} />
+        </>
+      ) : (
+        <Center flexGrow={1}>
+          <Text fontSize="lg" color="gray.600">
+            No conversation chosen.
+          </Text>
+        </Center>
+      )}
+    </Flex>
   );
 }

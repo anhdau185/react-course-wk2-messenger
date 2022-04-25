@@ -1,24 +1,19 @@
-import React, { useEffect, useMemo } from 'react';
+import { ReactNode, useEffect, useMemo } from 'react';
 import {
   Box,
   Drawer,
   DrawerContent,
-  Flex,
-  useColorModeValue,
   useDisclosure,
-  useMediaQuery
+  useMediaQuery,
+  useColorModeValue
 } from '@chakra-ui/react';
 
 import { SidebarContextValues, SidebarContext } from 'context/sidebar';
-import { useAccountPageData } from 'context/accountPage';
-import { MobileChatHeader, DesktopChatHeader } from './Navigation';
 import SidebarContent from './SidebarContent';
 
-export default function SidebarLayout({ children }: { children: React.ReactNode }) {
+export default function SidebarLayout({ children: chatView }: { children: ReactNode }) {
   const [isMobile] = useMediaQuery('(max-width: 767px)');
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { currentConversation } = useAccountPageData();
-  const showDesktopNav = currentConversation !== undefined;
 
   const contextValues = useMemo<SidebarContextValues>(
     () => ({
@@ -50,15 +45,9 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
             <SidebarContent />
           </DrawerContent>
         </Drawer>
-        <Flex
-          h="100%"
-          ml={{ base: 0, md: 60, xl: 80 }}
-          flexDir="column"
-        >
-          <MobileChatHeader />
-          {showDesktopNav && <DesktopChatHeader />}
-          {children}
-        </Flex>
+        <Box h="100%" ml={{ base: 0, md: 60, xl: 80 }}>
+          {chatView}
+        </Box>
       </Box>
     </SidebarContext.Provider>
   );
