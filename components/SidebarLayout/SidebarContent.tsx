@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import type { PropsWithChildren } from 'react';
 import Link from 'next/link';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import type { BoxProps, FlexProps } from '@chakra-ui/react';
@@ -13,10 +13,10 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 
-import { AccountPageContext } from 'pages/account/[accountId]';
+import { useAccountPageContext } from 'pages/account/[accountId]';
 import { getConversationName } from 'utils';
 
-type SidebarItemProps = FlexProps & React.PropsWithChildren<{
+type SidebarItemProps = FlexProps & PropsWithChildren<{
   selected?: boolean;
 }>;
 
@@ -48,7 +48,7 @@ export default function SidebarContent({ onClose, ...rest }: SidebarContentProps
     conversations,
     currentConversation,
     setCurrentConversation
-  } = useContext(AccountPageContext);
+  } = useAccountPageContext();
 
   return (
     <Box

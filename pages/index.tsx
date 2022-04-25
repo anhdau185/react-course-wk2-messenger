@@ -10,7 +10,7 @@ type HomeProps = {
 };
 
 const Home: NextPage<HomeProps> = ({ accounts }) => (
-  <Center flexDirection="column" w="100vw" h="80vh">
+  <Center flexDir="column" w="100vw" h="80vh">
     <Heading as="h2" fontSize={{ base: '2xl', lg: '3xl' }} mb="5" color="gray.800">
       Select an Account
     </Heading>

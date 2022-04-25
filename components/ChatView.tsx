@@ -37,7 +37,7 @@ export default function ChatView({ conversation }: ChatViewProps) {
       <MessageBox refetchMessages={fetch} />
     </>
   ) : (
-    <Center h="100%">
+    <Center flexGrow={1}>
       <Text fontSize="lg" color="gray.600">
         No conversation chosen.
       </Text>

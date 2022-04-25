@@ -21,7 +21,7 @@ export default function MessageBox({ refetchMessages, optimisticUpdateMessages }
   };
 
   return (
-    <Box borderTop="1px" borderColor="gray.200" p="4" mt="2">
+    <Box p="4" mt="2" borderTop="1px" borderColor="gray.200">
       <InputGroup>
         <Input
           variant="filled"

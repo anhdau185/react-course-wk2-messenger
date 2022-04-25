@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import type { FlexProps } from '@chakra-ui/react';
 import {
@@ -9,7 +9,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 
-import { AccountPageContext } from 'pages/account/[accountId]';
+import { useAccountPageContext } from 'pages/account/[accountId]';
 import { getConversationName } from 'utils';
 
 type MobileNavProps = FlexProps & {
@@ -17,7 +17,7 @@ type MobileNavProps = FlexProps & {
 };
 
 export const MobileNav = ({ onOpen, ...rest }: MobileNavProps) => {
-  const { account, currentConversation } = useContext(AccountPageContext);
+  const { account, currentConversation } = useAccountPageContext();
   const showConversationName = currentConversation !== undefined;
   const conversationName = useMemo(
     () => `You and ${getConversationName(currentConversation, account)}`,
@@ -50,7 +50,7 @@ export const MobileNav = ({ onOpen, ...rest }: MobileNavProps) => {
 
 export const DesktopNav = (flexProps: FlexProps) => {
   const { account, currentConversation, setCurrentConversation } =
-    useContext(AccountPageContext);
+    useAccountPageContext();
 
   const conversationName = useMemo(
     () => getConversationName(currentConversation, account),

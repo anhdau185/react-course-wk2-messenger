@@ -1,10 +1,10 @@
-import { useContext } from 'react';
+import { useMemo } from 'react';
 import { Avatar, Box, Center, Flex, Text } from '@chakra-ui/react';
 import ScrollableFeed from 'react-scrollable-feed';
 
 import type { Message } from 'types/api';
 import { isSamePerson } from 'utils';
-import { AccountPageContext } from 'pages/account/[accountId]';
+import { useAccountPageContext } from 'pages/account/[accountId]';
 
 type MessageItemProps = {
   message: Message;
@@ -15,8 +15,11 @@ type MessageFeedProps = {
 };
 
 const MessageItem = ({ message }: MessageItemProps) => {
-  const { account } = useContext(AccountPageContext);
-  const isMyself = isSamePerson(message.sender, account);
+  const { account } = useAccountPageContext();
+  const isMyself = useMemo(
+    () => isSamePerson(message.sender, account),
+    [message.sender, account]
+  );
 
   return (
     <Flex
@@ -47,12 +50,12 @@ export default function MessageFeed({ messages }: MessageFeedProps) {
   return !emptyMessages ? (
     <Flex
       flexGrow={1}
-      flexDirection="column"
+      flexDir="column"
       justify="flex-end"
       overflowY="hidden"
     >
       <ScrollableFeed>
-        <Flex flexDirection="column-reverse">
+        <Flex flexDir="column-reverse">
           {messages.map(message => <MessageItem message={message} />)}
         </Flex>
       </ScrollableFeed>
