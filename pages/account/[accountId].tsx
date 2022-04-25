@@ -21,7 +21,7 @@ const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversation, setCurrentConversation] = useState<Conversation>();
 
-  const contextValue = useMemo<AccountPageContextValues>(
+  const contextValues = useMemo<AccountPageContextValues>(
     () => ({
       account,
       conversations,
@@ -37,7 +37,7 @@ const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
   }, [account.id]);
 
   return (
-    <AccountPageContext.Provider value={contextValue}>
+    <AccountPageContext.Provider value={contextValues}>
       <SidebarLayout>
         <ChatView conversation={currentConversation} />
       </SidebarLayout>

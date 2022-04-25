@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
   Box,
   Drawer,
@@ -9,6 +9,7 @@ import {
   useMediaQuery
 } from '@chakra-ui/react';
 
+import { SidebarContextValues, SidebarContext } from 'context/sidebar';
 import { useAccountPageData } from 'pages/account/[accountId]';
 import { MobileNav, DesktopNav } from './Navigation';
 import SidebarContent from './SidebarContent';
@@ -19,38 +20,49 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
   const { currentConversation } = useAccountPageData();
   const showDesktopNav = currentConversation !== undefined;
 
+  const contextValues = useMemo<SidebarContextValues>(
+    () => ({
+      isSidebarOpen: isOpen,
+      openSidebar: onOpen,
+      closeSidebar: onClose
+    }),
+    [isOpen]
+  );
+
   useEffect(() => {
     if (isMobile) onOpen();
   }, []);
 
   return (
-    <Box h="100vh" bg={useColorModeValue('white', 'gray.900')}>
-      <SidebarContent
-        display={{ base: 'none', md: 'block' }}
-        onClose={() => onClose}
-      />
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full"
-      >
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      <Flex
-        h="100%"
-        ml={{ base: 0, md: 60, xl: 80 }}
-        flexDir="column"
-      >
-        <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-        {showDesktopNav && <DesktopNav display={{ base: 'none', md: 'flex' }} />}
-        {children}
-      </Flex>
-    </Box>
+    <SidebarContext.Provider value={contextValues}>
+      <Box h="100vh" bg={useColorModeValue('white', 'gray.900')}>
+        <SidebarContent
+          display={{ base: 'none', md: 'block' }}
+          onClose={() => onClose}
+        />
+        <Drawer
+          autoFocus={false}
+          isOpen={isOpen}
+          placement="left"
+          onClose={onClose}
+          returnFocusOnClose={false}
+          onOverlayClick={onClose}
+          size="full"
+        >
+          <DrawerContent>
+            <SidebarContent onClose={onClose} />
+          </DrawerContent>
+        </Drawer>
+        <Flex
+          h="100%"
+          ml={{ base: 0, md: 60, xl: 80 }}
+          flexDir="column"
+        >
+          <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
+          {showDesktopNav && <DesktopNav display={{ base: 'none', md: 'flex' }} />}
+          {children}
+        </Flex>
+      </Box>
+    </SidebarContext.Provider>
   );
 }
