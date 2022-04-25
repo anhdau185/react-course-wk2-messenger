@@ -1,21 +1,20 @@
 import type { GetServerSideProps, NextPage } from 'next';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 
-import type { Conversation, PaginatedResponse } from 'types/api';
+import type { Conversation, PaginatedResponse, User } from 'types/api';
+import { AccountPageContextValues, AccountPageContext } from 'context/accountPage';
 import SidebarLayout from 'components/SidebarLayout';
 import ChatView from 'components/ChatView';
 import { getAccount } from '../api/account/[accountId]';
-import type {
-  AccountPageParams,
-  AccountPageProps,
-  AccountPageContextValues
-} from './types';
 
-export const AccountPageContext =
-  createContext<AccountPageContextValues>({ conversations: [] });
+type AccountPageParams = {
+  accountId: string;
+};
 
-export const useAccountPageData = () => useContext(AccountPageContext);
+type AccountPageProps = {
+  account: User;
+};
 
 const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
   const [conversations, setConversations] = useState<Conversation[]>([]);

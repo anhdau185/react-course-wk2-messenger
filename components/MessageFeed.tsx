@@ -3,8 +3,8 @@ import { Avatar, Box, Center, Flex, Text } from '@chakra-ui/react';
 import ScrollableFeed from 'react-scrollable-feed';
 
 import type { Message } from 'types/api';
+import { useAccountPageData } from 'context/accountPage';
 import { isSamePerson } from 'utils';
-import { useAccountPageData } from 'pages/account/[accountId]';
 
 type MessageItemProps = {
   message: Message;

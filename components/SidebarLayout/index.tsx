@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 
 import { SidebarContextValues, SidebarContext } from 'context/sidebar';
-import { useAccountPageData } from 'pages/account/[accountId]';
+import { useAccountPageData } from 'context/accountPage';
 import { MobileChatHeader, DesktopChatHeader } from './Navigation';
 import SidebarContent from './SidebarContent';
 

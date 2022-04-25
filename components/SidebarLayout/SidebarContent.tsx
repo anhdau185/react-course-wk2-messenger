@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 
 import { useSidebar } from 'context/sidebar';
-import { useAccountPageData } from 'pages/account/[accountId]';
+import { useAccountPageData } from 'context/accountPage';
 import { getConversationName } from 'utils';
 
 type SidebarItemProps = FlexProps & PropsWithChildren<{

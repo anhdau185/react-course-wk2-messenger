@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import type { Conversation, Message, PaginatedResponse } from 'types/api';
-import { useAccountPageData } from 'pages/account/[accountId]';
+import { useAccountPageData } from 'context/accountPage';
 import MessageFeed from './MessageFeed';
 import MessageBox from './MessageBox';
 import { Center, Text } from '@chakra-ui/react';
