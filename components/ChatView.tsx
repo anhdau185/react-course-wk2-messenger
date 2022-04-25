@@ -2,16 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { Center, Flex, Text } from '@chakra-ui/react';
 import axios from 'axios';
 
-import type { Conversation, Message, PaginatedResponse } from 'types/api';
+import type { Message, PaginatedResponse } from 'types/api';
 import { useAccountPageData } from 'context/accountPage';
 import MessageFeed from './MessageFeed';
 import MessageBox from './MessageBox';
 import MobileChatHeader from './MobileChatHeader';
 import DesktopChatHeader from './DesktopChatHeader';
-
-type ChatViewProps = {
-  conversation: Conversation | undefined;
-};
 
 const getMessages = ({
   accountId,
@@ -24,32 +20,32 @@ const getMessages = ({
     `/api/account/${accountId}/conversation/${conversationId}/messages`
   );
 
-export default function ChatView({ conversation }: ChatViewProps) {
-  const { account } = useAccountPageData();
+export default function ChatView() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const conversationChosen = conversation !== undefined;
+  const { account, currentConversation } = useAccountPageData();
+  const anyConversationChosen = currentConversation !== undefined;
 
   const fetchData = useCallback(
     () => getMessages({
       accountId: account?.id,
-      conversationId: conversation?.id
+      conversationId: currentConversation?.id
     }),
-    [account?.id, conversation?.id]
+    [account?.id, currentConversation?.id]
   );
 
   useEffect(() => {
-    if (account?.id && conversation?.id) {
+    if (account?.id && currentConversation?.id) {
       fetchData().then(
         response => setMessages(response.data.rows)
       );
     }
-  }, [account?.id, conversation?.id]);
+  }, [account?.id, currentConversation?.id]);
 
   return (
     <Flex flexDir="column" w="100%" h="100%">
       <MobileChatHeader />
       <DesktopChatHeader />
-      {conversationChosen ? (
+      {anyConversationChosen ? (
         <>
           <MessageFeed messages={messages} />
           <MessageBox updateMessages={setMessages} />

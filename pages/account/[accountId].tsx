@@ -42,7 +42,7 @@ const AccountPage: NextPage<AccountPageProps> = ({ account }) => {
   return (
     <AccountPageContext.Provider value={contextValues}>
       <SidebarLayout>
-        <ChatView conversation={currentConversation} />
+        <ChatView />
       </SidebarLayout>
     </AccountPageContext.Provider>
   );
