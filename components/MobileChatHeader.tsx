@@ -32,6 +32,7 @@ export default function MobileChatHeader() {
         mr="3"
         onClick={openSidebar}
         icon={<HamburgerIcon fontSize="xl" />}
+        _focus={{ outline: 'none', boxShadow: 'none' }}
       />
       {showConversationName
         ? <Text fontSize="lg" fontWeight="bold">{conversationName}</Text>

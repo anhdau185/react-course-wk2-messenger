@@ -41,6 +41,7 @@ export default function MessageBox({ refetchMessages, optimisticUpdateMessages }
           color="purple.600"
           icon={<IoIosSend size={30} />}
           disabled={!text}
+          _focus={{ outline: 'none', boxShadow: 'none' }}
           onClick={send}
         />
       </InputGroup>

@@ -66,13 +66,18 @@ export default function SidebarContent(boxProps: BoxProps) {
               mr="3"
               aria-label="back to home"
               icon={<ChevronLeftIcon fontSize="3xl" />}
+              _focus={{ outline: 'none', boxShadow: 'none' }}
             />
           </Link>
           <Text fontSize={{ base: 'xl', xl: '2xl' }} fontWeight="bold">
             Conversations
           </Text>
         </Flex>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={closeSidebar} />
+        <CloseButton
+          display={{ base: 'flex', md: 'none' }}
+          _focus={{ outline: 'none', boxShadow: 'none' }}
+          onClick={closeSidebar}
+        />
       </Flex>
       {conversations.map(conversation => (
         <SidebarItem
