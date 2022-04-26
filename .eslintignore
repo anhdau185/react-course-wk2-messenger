@@ -1,2 +1,3 @@
 /data
 /pages/api/account/\[accountId\]/conversation/
+next.config.js

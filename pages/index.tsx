@@ -1,9 +1,9 @@
 import type { GetStaticProps, NextPage } from 'next';
 import { Center, Heading, List, ListItem } from '@chakra-ui/react';
+import axios from 'axios';
 
 import type { User } from 'types/api';
 import AccountItem from 'components/AccountItem';
-import { getAllAccounts } from './api/accounts';
 
 type HomeProps = {
   accounts: User[];
@@ -25,7 +25,9 @@ const Home: NextPage<HomeProps> = ({ accounts }) => (
 );
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  const accounts = await getAllAccounts();
+  const { data: accounts } = await axios.get<User[]>(
+    'https://messenger-api.tung.ninja/api/accounts'
+  );
 
   return {
     props: { accounts }
